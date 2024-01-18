@@ -5,12 +5,12 @@ class MyButton extends StatefulWidget {
   final String text;
   final Color? color;
   final String? image;
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   const MyButton({
     Key? key,
-    required this.height,
-    required this.width,
+    this.height,
+    this.width,
     required this.ontaps,
     required this.text,
     this.color,

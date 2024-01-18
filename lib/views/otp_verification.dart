@@ -3,11 +3,15 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mission_test_svr_infotech/colors/colors.dart';
+import 'package:mission_test_svr_infotech/constants/constants.dart';
+import 'package:mission_test_svr_infotech/controllers/verification_controller.dart';
+import 'package:mission_test_svr_infotech/views/login_page.dart';
 
-import 'package:mission_test_svr_infotech/pages/login_page.dart';
-
-import 'package:mission_test_svr_infotech/pages/verification_page.dart';
-import 'package:mission_test_svr_infotech/pages/widgets/button.dart';
+import 'package:mission_test_svr_infotech/views/registration_page.dart';
+import 'package:mission_test_svr_infotech/views/widgets/button.dart';
+import 'package:mission_test_svr_infotech/views/widgets/pinput_filed.dart';
+import 'package:mission_test_svr_infotech/views/widgets/text_view.dart';
 import 'package:pinput/pinput.dart';
 
 TextEditingController otpcontoller = TextEditingController();
@@ -27,25 +31,7 @@ class OtpVerificationPage extends StatefulWidget {
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
-  String hidePhoneNumber(String phoneNumber) {
-    if (phoneNumber.length < 4) {
-      return ''; // Invalid phone number
-    }
-
-    int numberOfDigitsToShow = 2; // Show the first two digits
-    int numberOfDigitsToHide = phoneNumber.length - 4; // Hide the middle digits
-
-    String visiblePart = phoneNumber.substring(0, numberOfDigitsToShow);
-    String hiddenPart = '*' * numberOfDigitsToHide;
-    String lastTwoDigits = phoneNumber.substring(phoneNumber.length - 2);
-
-    String formattedPhoneNumber = '$visiblePart$hiddenPart$lastTwoDigits';
-
-    return formattedPhoneNumber;
-  }
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   Future<void> resendOtp() async {
     verificationCompleted(PhoneAuthCredential credential) async {
       await _auth.signInWithCredential(credential);
@@ -80,32 +66,15 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     }
   }
 
-  Future<void> verifyOTP(String enteredOtp, String otpVerificationId) async {
-    try {
-      if (enteredOtp == widget.verificationId) {
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: otpVerificationId,
-          smsCode: enteredOtp,
-        );
-        await _auth.signInWithCredential(credential);
-        log("OTP VERIFIED");
-        Get.to(() => const VerificationPage());
-      } else {
-        Get.snackbar('', 'Please enter a valid OTP');
-      }
-    } catch (e) {
-      log("Error $e");
-    }
-  }
-
   bool isverifed = false;
   @override
   Widget build(BuildContext context) {
-    String formattedPhoneNumber = hidePhoneNumber(widget.phoneNumber);
+    String formattedPhoneNumber =
+        VerificationController().hidePhoneNumber(widget.phoneNumber);
 
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(16, 92, 156, 1),
+      backgroundColor: AppColors.backgroundColr,
       body: Stack(
         children: [
           Positioned(
@@ -130,45 +99,31 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           Positioned(
               top: 180,
               left: 4,
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 // color: Colors.red,
                 child: Column(
                   children: [
-                    const Text("Enter OTP ",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700)),
-                    const SizedBox(
-                      height: 12,
+                    const TextView(
+                      text: 'Enter OTP ',
+                      colrs: AppColors.newColor,
+                      size: 20,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const Text(
-                      "We have sent an OTP on",
-                      style: TextStyle(color: Colors.white60, fontSize: 15),
+                    kabox,
+                    const TextView(
+                      text: 'We have sent an OTP on',
+                      colrs: AppColors.newColor,
+                      size: 15,
                     ),
                     Text("$selectedCountryCode $formattedPhoneNumber  ",
                         style: const TextStyle(color: Colors.white60)),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Pinput(
-                      length: 6,
-                      controller: otpcontoller,
-                      onChanged: (value) {},
-                      defaultPinTheme: PinTheme(
-                          width: 45,
-                          height: 48,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10))),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
+                    kmbox,
+                    const PinputField(),
+                    kmbox,
                     MyButton(
                       height: 50,
-                      color: const Color.fromRGBO(169, 198, 40, 1),
+                      color: AppColors.textColor,
                       width: screenWidth - 100,
                       ontaps: () async {
                         // verifyOTP(otpcontoller.text, widget.verificationId!);
@@ -180,21 +135,19 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       },
                       text: 'Login',
                     ),
-                    Row(
+                    Flex(
+                      direction: Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Don't receive OTP?",
-                          style: TextStyle(color: Colors.white),
+                        const TextView(
+                          text: "Don't receive OTP?",
+                          colrs: AppColors.newColor,
                         ),
-                        TextButton(
-                            onPressed: () {
+                        MyButton(
+                            ontaps: () {
                               resendOtp();
                             },
-                            child: const Text(
-                              'Resend',
-                              style: TextStyle(color: Colors.white),
-                            ))
+                            text: 'Resend')
                       ],
                     )
                   ],

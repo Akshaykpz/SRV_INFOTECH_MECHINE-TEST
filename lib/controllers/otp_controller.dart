@@ -18,10 +18,7 @@ class OtpController extends GetxController {
       );
 
       await _auth.signInWithCredential(credential);
-
-      // Navigate to the VerificationPage after successful verification
     } catch (e) {
-      // Handle verification failure
       log('Error during OTP verification: $e');
     } finally {
       isLoading.value = false;

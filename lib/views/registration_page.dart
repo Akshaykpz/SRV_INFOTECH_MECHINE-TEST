@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mission_test_svr_infotech/pages/widgets/button.dart';
-import 'package:mission_test_svr_infotech/pages/widgets/textformfiled.dart';
+import 'package:mission_test_svr_infotech/colors/colors.dart';
+import 'package:mission_test_svr_infotech/constants/constants.dart';
+
+import 'package:mission_test_svr_infotech/views/widgets/button.dart';
+import 'package:mission_test_svr_infotech/views/widgets/text_view.dart';
+import 'package:mission_test_svr_infotech/views/widgets/textformfiled.dart';
 
 class VerificationPage extends StatelessWidget {
   const VerificationPage({super.key});
@@ -18,14 +21,12 @@ class VerificationPage extends StatelessWidget {
           child: Container(
             height: 480,
             decoration: const BoxDecoration(
-                color: Color.fromRGBO(16, 92, 156, 1),
+                color: AppColors.backgroundColr,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(16),
                     bottomRight: Radius.circular(16))),
             child: Column(children: [
-              const SizedBox(
-                height: 160,
-              ),
+              krbox,
               Image.asset(
                 'assets/user.png',
                 height: 60,
@@ -50,27 +51,17 @@ class VerificationPage extends StatelessWidget {
                         blurRadius: 15)
                   ]),
               child: Column(children: [
-                const SizedBox(
-                  height: 30,
+                kkbox,
+                const TextView(
+                  colrs: AppColors.textColor,
+                  fontWeight: FontWeight.w800,
+                  size: 20,
+                  text: 'Update your profile',
                 ),
-                const Text(
-                  "Update your profile",
-                  style: TextStyle(
-                      color: Color.fromRGBO(
-                        169,
-                        198,
-                        40,
-                        1,
-                      ),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                TextformField(onchnaged: (p0) {}, text: 'Name'),
-                TextformField(onchnaged: (p0) {}, text: 'Email'),
-                TextformField(onchnaged: (p0) {}, text: 'Pincode'),
+                klbox,
+                TextformField(onChanged: (p0) {}, text: 'Name'),
+                TextformField(onChanged: (p0) {}, text: 'Email'),
+                TextformField(onChanged: (p0) {}, text: 'Pincode'),
                 const SizedBox(
                   height: 50,
                 ),

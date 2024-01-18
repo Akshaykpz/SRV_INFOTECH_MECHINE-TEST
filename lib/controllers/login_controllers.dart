@@ -1,41 +1,8 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
-
-import 'package:google_sign_in/google_sign_in.dart';
-
-final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-class GoogleAuth {
-  Future<UserCredential?> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-
-      if (googleSignInAccount == null) {
-        // The user canceled the sign-in process
-        return null;
-      }
-
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      log('Google Sign-In Error: $e');
-
-      Get.snackbar('Error', 'Failed to sign in with Google:',
-          snackPosition: SnackPosition.TOP);
-      return null;
-    }
-  }
-}
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get_utils/src/get_utils/get_utils.dart';
 
 class MyFormController extends GetxController {
   var phonenumber = ''.obs;
@@ -62,5 +29,10 @@ class MyFormController extends GetxController {
     } else {
       log('Form is not valid');
     }
+  }
+
+  void clearPhoneNumber() {
+    phonenumber.value = '';
+    update();
   }
 }

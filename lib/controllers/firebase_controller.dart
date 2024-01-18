@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
-class FirebaseController {
+class FirebaseController extends GetxController {
   void fetchData() async {
     try {
       CollectionReference countryCollection =
