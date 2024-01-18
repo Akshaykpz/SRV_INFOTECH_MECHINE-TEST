@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "182306419468",
+    "project_id": "mission-test-srv-infotech",
+    "storage_bucket": "mission-test-srv-infotech.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182306419468:android:dbd801355df6fd9a9a8f29",
+        "android_client_info": {
+          "package_name": "com.example.mission_test_svr_infotech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdPbntwgutBrhDrH9HhMPBtfWDwrmiVLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
