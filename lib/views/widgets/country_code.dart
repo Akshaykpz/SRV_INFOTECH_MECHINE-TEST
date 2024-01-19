@@ -17,10 +17,21 @@ class CountryController extends GetxController {
 
   void updateSelectedCountryCode(String countryCode) {
     selectedCountryCode.value = countryCode;
+    print("this isssssssssssss$selectedCountryCode");
   }
 }
 
-class CountryDropdown extends StatelessWidget {
+class CountryDropdown extends StatefulWidget {
+  final void Function(String)? onCountryCodeSelected;
+
+  const CountryDropdown({Key? key, this.onCountryCodeSelected})
+      : super(key: key);
+
+  @override
+  State<CountryDropdown> createState() => _CountryDropdownState();
+}
+
+class _CountryDropdownState extends State<CountryDropdown> {
   final CountryController countryController = Get.put(CountryController());
 
   @override
@@ -81,6 +92,8 @@ class CountryDropdown extends StatelessWidget {
                 : null,
             onChanged: (value) {
               countryController.updateSelectedCountryCode(value!.value);
+              // Callback to pass the selected country code
+
               log('Selected Country: ${value.key}, Value: ${value.value}');
             },
             items: countryController.countryEntries

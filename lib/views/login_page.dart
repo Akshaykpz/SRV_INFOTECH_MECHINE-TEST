@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,7 @@ import 'package:mission_test_svr_infotech/views/widgets/textformfiled.dart';
 String selectedCountryCode = '';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -26,11 +27,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final MyFormController phoneContoller = Get.put(MyFormController());
+  CountryController countryController = Get.find<CountryController>();
 
   Future<void> verifyPhone() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
     verificationCompleted(PhoneAuthCredential credential) async {
-      await _auth.signInWithCredential(credential);
+      await auth.signInWithCredential(credential);
       log("TEST_LOG============verificationCompleted=========>");
     }
 
@@ -54,8 +56,9 @@ class _LoginPageState extends State<LoginPage> {
       log("TEST_LOG===========Time out==========>${verificationId}");
     }
 
-    await _auth.verifyPhoneNumber(
-      phoneNumber: '$selectedCountryCode $phoneContoller',
+    await auth.verifyPhoneNumber(
+      phoneNumber:
+          '${countryController.selectedCountryCode} ${phoneContoller.phonenumber}',
       timeout: const Duration(seconds: 30),
       verificationCompleted: verificationCompleted,
       verificationFailed: verificationFailed,
@@ -143,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.w500,
                         ),
                         kzbox,
-                        CountryDropdown(),
+                        const CountryDropdown(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 23),
                           child: TextformField(
@@ -195,8 +198,9 @@ class _LoginPageState extends State<LoginPage> {
                                       setState(() {
                                         isVerifying = true;
                                       });
-                                      verifyPhone();
                                       phoneContoller.submit();
+                                      verifyPhone();
+
                                       log("added");
                                       Future.delayed(
                                         const Duration(seconds: 6),
@@ -290,4 +294,205 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+// class CountryDropdown extends StatefulWidget {
+//   final void Function(String)? onCountryCodeSelected;
+
+//   const CountryDropdown({super.key, this.onCountryCodeSelected});
+
+//   @override
+//   State<CountryDropdown> createState() => _CountryDropdownState();
+// }
+
+// class _CountryDropdownState extends State<CountryDropdown> {
+//   final CountryController countryController = Get.put(CountryController());
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<DocumentSnapshot>(
+//       stream: getFirestoreInstance()
+//           .collection('countrycode')
+//           .doc('mfpDDptybTuao1NQcJmS')
+//           .snapshots(),
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return const Center(
+//             child: CircularProgressIndicator(),
+//           );
+//         }
+
+//         if (!snapshot.hasData || snapshot.data == null) {
+//           return const Center(child: Text("No data available"));
+//         }
+
+//         var countryData = snapshot.data!.data();
+//         if (countryData == null || countryData is! Map<String, dynamic>) {
+//           return const Center(child: Text("Invalid data format"));
+//         }
+
+//         var countryIdData = countryData['country_code'];
+//         if (countryIdData == null || countryIdData is! Map<String, dynamic>) {
+//           return const Center(child: Text("Invalid country code data format"));
+//         }
+
+//         List<MapEntry<String, String>> countryEntries =
+//             countryIdData.entries.map((entry) {
+//                   return MapEntry(entry.key, entry.value.toString());
+//                 }).toList() ??
+//                 [];
+//         // List<MapEntry<String, String>> countryEntries =
+//         //     countryIdData?.entries.map((entry) {
+//         //           return MapEntry(entry.key, entry.value.toString());
+//         //         }).toList() ??
+//         //         [];
+
+//         if (countryEntries.isEmpty) {
+//           return const Center(
+//             child: Text("No country codes available"),
+//           );
+//         }
+
+//         // countryController.updateCountryEntries(countryEntries);
+//         // return DropdownButton<MapEntry<String, String>>(
+//         //   value: countryEntries[0],
+//         //   onChanged: (value) {
+//         //     log('Selected Country: ${value!.key}, Value: ${value.value}');
+//         //     setState(() {
+//         //       selectedCountryCode = value.value;
+//         //     });
+//         //   },
+//         //   items: countryEntries.map((MapEntry<String, String> entry) {
+//         //     return DropdownMenuItem<MapEntry<String, String>>(
+//         //       value: entry,
+//         //       child: Text('${entry.key}: ${entry.value}'),
+//         //     );
+//         //   }).toList(),
+//         // );
+//         return Obx(() {
+//           return DropdownButton<MapEntry<String, String>>(
+//             hint: const Text("Select Country"),
+//             isExpanded: true,
+//             padding: const EdgeInsets.symmetric(horizontal: 23),
+//             icon: const Icon(Icons.keyboard_arrow_down_sharp),
+//             value: countryController.selectedCountryCode.isNotEmpty
+//                 ? countryController.countryEntries.firstWhere(
+//                     (entry) =>
+//                         entry.value ==
+//                         countryController.selectedCountryCode.value,
+//                     orElse: () => countryController.countryEntries[0],
+//                   )
+//                 : null,
+//             onChanged: (value) {
+//               countryController.updateSelectedCountryCode(value!.value);
+
+//               log('Selected Country: ${value.key}, Value: ${value.value}');
+//             },
+//             items: countryController.countryEntries
+//                 .map((MapEntry<String, String> entry) {
+//               return DropdownMenuItem<MapEntry<String, String>>(
+//                 value: entry,
+//                 child: Text(' (${entry.value})${entry.key} '),
+//               );
+//             }).toList(),
+//           );
+//         });
+//       },
+//     );
+//   }
+// }
+
+// FirebaseFirestore getFirestoreInstance() {
+//   return FirebaseFirestore.instance;
+// }
+class CountryDropdown extends StatefulWidget {
+  final void Function(String)? onCountryCodeSelected;
+
+  const CountryDropdown({Key? key, this.onCountryCodeSelected})
+      : super(key: key);
+
+  @override
+  State<CountryDropdown> createState() => _CountryDropdownState();
+}
+
+class _CountryDropdownState extends State<CountryDropdown> {
+  final CountryController countryController = Get.put(CountryController());
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: getFirestoreInstance()
+          .collection('countrycode')
+          .doc('mfpDDptybTuao1NQcJmS')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (!snapshot.hasData || snapshot.data == null) {
+          return const Center(child: Text("No data available"));
+        }
+
+        var countryData = snapshot.data!.data();
+        if (countryData == null || countryData is! Map<String, dynamic>) {
+          return const Center(child: Text("Invalid data format"));
+        }
+
+        var countryIdData = countryData['country_code'];
+        if (countryIdData == null || countryIdData is! Map<String, dynamic>) {
+          return const Center(child: Text("Invalid country code data format"));
+        }
+
+        List<MapEntry<String, String>> countryEntries =
+            countryIdData.entries.map((entry) {
+                  return MapEntry(entry.key, entry.value.toString());
+                }).toList() ??
+                [];
+
+        if (countryEntries.isEmpty) {
+          return const Center(
+            child: Text("No country codes available"),
+          );
+        }
+
+        countryController.updateCountryEntries(countryEntries);
+
+        return Obx(() {
+          return DropdownButton<MapEntry<String, String>>(
+            hint: const Text("Select Country"),
+            isExpanded: true,
+            padding: const EdgeInsets.symmetric(horizontal: 23),
+            icon: const Icon(Icons.keyboard_arrow_down_sharp),
+            value: countryController.selectedCountryCode.isNotEmpty
+                ? countryController.countryEntries.firstWhere(
+                    (entry) =>
+                        entry.value ==
+                        countryController.selectedCountryCode.value,
+                    orElse: () => countryController.countryEntries[0],
+                  )
+                : null,
+            onChanged: (value) {
+              countryController.updateSelectedCountryCode(value!.value);
+              // Callback to pass the selected country code
+
+              log('Selected Country: ${value.key}, Value: ${value.value}');
+            },
+            items: countryController.countryEntries
+                .map((MapEntry<String, String> entry) {
+              return DropdownMenuItem<MapEntry<String, String>>(
+                value: entry,
+                child: Text(' (${entry.value})${entry.key} '),
+              );
+            }).toList(),
+          );
+        });
+      },
+    );
+  }
+}
+
+FirebaseFirestore getFirestoreInstance() {
+  return FirebaseFirestore.instance;
 }

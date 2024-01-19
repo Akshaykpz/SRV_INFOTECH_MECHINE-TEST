@@ -31,6 +31,8 @@ class OtpVerificationPage extends StatefulWidget {
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
+  String selectedCountryCode = '';
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> resendOtp() async {
     verificationCompleted(PhoneAuthCredential credential) async {
