@@ -47,7 +47,8 @@ class _MyButtonState extends State<MyButton> {
           color: widget.color,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Row(
+        child: Flex(
+          direction: Axis.horizontal,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             if (widget.image != null)

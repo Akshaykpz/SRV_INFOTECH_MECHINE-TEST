@@ -1,36 +1,5 @@
-// // ignore_for_file: must_be_immutable
-
-// import 'package:flutter/material.dart';
-// import 'package:mission_test_svr_infotech/colors/colors.dart';
-
-// class ContinerView extends StatelessWidget {
-//   bool isVerifying = false;
-//   ContinerView({super.key, required this.isVerifying});
-
 // ignore_for_file: must_be_immutable
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 85,
-//       width: 85,
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(90),
-//           color: AppColors.backgroundColr),
-//       child: isVerifying
-//           ? const Center(
-//               child: CircularProgressIndicator(
-//                 color: Colors.white,
-//               ),
-//             )
-//           : const Icon(
-//               Icons.arrow_forward,
-//               color: Colors.white,
-//               size: 28,
-//             ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:mission_test_svr_infotech/colors/colors.dart';
 
@@ -40,15 +9,15 @@ class ContainerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double containerSize = MediaQuery.of(context).size.width * 0.2;
+    double containerSize = MediaQuery.of(context).size.width * 0.1;
     double iconSize = containerSize * 0.32;
 
     return Container(
-      height: containerSize,
-      width: containerSize,
+      // height: containerSize * 1.9,
+      // width: containerSize * 1.9,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(containerSize / 2),
-        color: AppColors.backgroundColr,
+        borderRadius: BorderRadius.circular(12),
+        color: const Color.fromARGB(255, 202, 11, 11),
       ),
       child: isVerifying
           ? const Center(

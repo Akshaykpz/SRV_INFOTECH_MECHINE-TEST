@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mission_test_svr_infotech/views/otp_verification.dart';
+import 'package:mission_test_svr_infotech/views/pages/otp_verification.dart';
 import 'package:pinput/pinput.dart';
 
 class PinputField extends StatelessWidget {

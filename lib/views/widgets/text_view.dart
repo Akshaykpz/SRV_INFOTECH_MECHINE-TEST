@@ -10,9 +10,15 @@ class TextView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text!,
-      style: TextStyle(color: colrs, fontSize: size, fontWeight: fontWeight),
+    return Flexible(
+      child: Text(
+        text!,
+        style: TextStyle(
+          color: colrs,
+          fontSize: size,
+          fontWeight: fontWeight,
+        ),
+      ),
     );
   }
 }
