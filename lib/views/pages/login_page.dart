@@ -11,7 +11,6 @@ import 'package:mission_test_svr_infotech/colors/colors.dart';
 import 'package:mission_test_svr_infotech/controllers/google_auth.dart';
 import 'package:mission_test_svr_infotech/controllers/login_controllers.dart';
 import 'package:mission_test_svr_infotech/views/pages/otp_verification.dart';
-import 'package:mission_test_svr_infotech/views/widgets/box_container.dart';
 
 import 'package:mission_test_svr_infotech/views/widgets/button.dart';
 import 'package:mission_test_svr_infotech/views/widgets/country_code.dart';
@@ -32,9 +31,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isVerifying = false;
-  void clearText() {
-    phoneController.clearPhoneNumber();
-  }
 
   Future<void> verifyPhone() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
@@ -73,6 +69,12 @@ class _LoginPageState extends State<LoginPage> {
       codeSent: codeSent,
       codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
     );
+  }
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    super.dispose();
   }
 
   @override
@@ -142,34 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Positioned(
-                    top: ScreenUtil().setHeight(210),
-                    right: ScreenUtil().setWidth(151),
-                    child: InkWell(
-                      onTap: () async {
-                        if (phoneController.phonenumber.value.length < 10) {
-                          Get.snackbar(
-                            'Please enter a valid phone number',
-                            colorText: Colors.white,
-                            '',
-                            backgroundColor: Colors.red,
-                            snackPosition: SnackPosition.TOP,
-                          );
-                        } else {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => OtpverificationView(
-                          //             // verificationId: verificationId,
-                          //             phoneNumber: phoneController.phonenumber
-                          //                 .toString(),
-                          //           )),
-                          // );
-                          phoneController.submit();
-                          await verifyPhone();
-
-                          log("added");
-                        }
-                      },
+                      top: ScreenUtil().setHeight(210),
+                      right: ScreenUtil().setWidth(151),
                       child: Container(
                           width: ScreenUtil().setWidth(65),
                           height: ScreenUtil().setHeight(65),
@@ -177,11 +153,42 @@ class _LoginPageState extends State<LoginPage> {
                             shape: BoxShape.circle,
                             color: AppColors.backgroundColr,
                           ),
-                          child: ContainerView(
-                            isVerifying: isVerifying,
-                          )),
-                    ),
-                  ),
+                          child: InkWell(
+                            child: isVerifying
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ))
+                                : const Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 27,
+                                  ),
+                            onTap: () async {
+                              if (phoneController.phonenumber.value.length <
+                                  10) {
+                                Get.snackbar(
+                                  'Please enter a valid phone number',
+                                  colorText: Colors.white,
+                                  '',
+                                  backgroundColor: Colors.red,
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                              } else {
+                                setState(() {
+                                  isVerifying = true;
+                                });
+                                await Future.delayed(
+                                    const Duration(seconds: 3));
+                                log("added");
+                                phoneController.submit();
+                                verifyPhone();
+                                setState(() {
+                                  isVerifying = false;
+                                });
+                              }
+                            },
+                          ))),
                   Positioned(
                     bottom: 70.h,
                     left: 0,
@@ -204,6 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: ScreenUtil().setHeight(20),
                       text: 'Login with Google',
                       color: Colors.white,
+                      textColor: Colors.grey.shade600,
                       image:
                           'assets/kisspng-google-logo-5b02bbe210fa26.4684376415269058260696.png',
                     ),

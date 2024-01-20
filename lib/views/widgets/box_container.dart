@@ -16,7 +16,7 @@ class _ContainerViewState extends State<ContainerView> {
   @override
   Widget build(BuildContext context) {
     double containerSize = MediaQuery.of(context).size.width * 0.1;
-    double iconSize = containerSize * 0.32;
+    double iconSize = containerSize * 0.40;
 
     return isVerifying
         ? const Center(

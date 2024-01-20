@@ -10,7 +10,6 @@ import 'package:mission_test_svr_infotech/constants/constants.dart';
 import 'package:mission_test_svr_infotech/controllers/otp_controller.dart';
 import 'package:mission_test_svr_infotech/controllers/verification_controller.dart';
 
-import 'package:mission_test_svr_infotech/views/pages/registration_page.dart';
 import 'package:mission_test_svr_infotech/views/widgets/button.dart';
 import 'package:mission_test_svr_infotech/views/widgets/pinput_filed.dart';
 import 'package:mission_test_svr_infotech/views/widgets/text_view.dart';
@@ -114,7 +113,7 @@ class _OtpverificationViewState extends State<OtpverificationView> {
                   'We have sent an OTP on',
                   style: newFont,
                 ),
-                Text("${widget.countrycode} ${widget.phoneNumber}  ",
+                Text("${widget.countrycode} $formattedPhoneNumber  ",
                     style: newFont),
                 kabox,
                 const PinputField(),
@@ -127,11 +126,6 @@ class _OtpverificationViewState extends State<OtpverificationView> {
                   ontaps: () async {
                     OtpController()
                         .verifyOTP(otpcontoller.text, widget.verificationId!);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const VerificationPage(),
-                    //     ));
                   },
                   text: 'Login',
                 ),

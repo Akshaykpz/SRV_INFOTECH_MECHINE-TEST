@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class MyButton extends StatefulWidget {
@@ -20,7 +22,7 @@ class MyButton extends StatefulWidget {
     this.color,
     this.fontWeight,
     this.image,
-    this.textColor, // Add textColor property
+    this.textColor,
   }) : super(key: key);
 
   @override
