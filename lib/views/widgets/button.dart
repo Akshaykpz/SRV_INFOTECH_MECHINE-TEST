@@ -7,14 +7,20 @@ class MyButton extends StatefulWidget {
   final String? image;
   final double? height;
   final double? width;
+  final FontWeight? fontWeight;
+  final double? fontsize;
+  final Color? textColor; // Add textColor property
   const MyButton({
     Key? key,
     this.height,
     this.width,
     required this.ontaps,
     required this.text,
+    this.fontsize,
     this.color,
+    this.fontWeight,
     this.image,
+    this.textColor, // Add textColor property
   }) : super(key: key);
 
   @override
@@ -62,11 +68,11 @@ class _MyButtonState extends State<MyButton> {
                   )
                 : Text(
                     widget.text,
-                    style: const TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                        color: widget.textColor,
+                        fontWeight: widget.fontWeight,
+                        fontSize: widget.fontsize),
                   ),
-            const SizedBox(
-              width: 20,
-            )
           ],
         ),
       ),

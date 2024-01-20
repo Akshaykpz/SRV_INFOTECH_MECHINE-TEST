@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:mission_test_svr_infotech/constants/constants.dart';
+
 class TextformField extends StatelessWidget {
   final String text;
   final void Function(String) onChanged;
@@ -26,7 +28,7 @@ class TextformField extends StatelessWidget {
         validator: validator,
         keyboardType: keyboardType,
         inputFormatters: inputFormatter,
-        decoration: InputDecoration(hintText: text),
+        decoration: InputDecoration(hintText: text, hintStyle: hintDesion),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mission_test_svr_infotech/views/pages/login_page.dart';
 
 class CountryController extends GetxController {
   final RxList<MapEntry<String, String>> countryEntries =
@@ -17,7 +18,7 @@ class CountryController extends GetxController {
 
   void updateSelectedCountryCode(String countryCode) {
     selectedCountryCode.value = countryCode;
-    print("this isssssssssssss$selectedCountryCode");
+    log("this isssssssssssss$selectedCountryCode");
   }
 }
 
@@ -92,6 +93,7 @@ class _CountryDropdownState extends State<CountryDropdown> {
                 : null,
             onChanged: (value) {
               countryController.updateSelectedCountryCode(value!.value);
+
               // Callback to pass the selected country code
 
               log('Selected Country: ${value.key}, Value: ${value.value}');

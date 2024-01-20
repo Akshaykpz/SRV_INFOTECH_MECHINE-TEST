@@ -9,4 +9,8 @@ class AppColors {
     1,
   );
   static const Color newColor = Colors.white;
+  static const Color hashColor = Color.fromRGBO(255, 255, 255, 0.6);
+
+  static const Color black = Colors.black87;
+  static Color black1 = Colors.grey.shade500;
 }

@@ -11,6 +11,7 @@ import 'package:mission_test_svr_infotech/colors/colors.dart';
 import 'package:mission_test_svr_infotech/controllers/google_auth.dart';
 import 'package:mission_test_svr_infotech/controllers/login_controllers.dart';
 import 'package:mission_test_svr_infotech/views/pages/otp_verification.dart';
+import 'package:mission_test_svr_infotech/views/widgets/box_container.dart';
 
 import 'package:mission_test_svr_infotech/views/widgets/button.dart';
 import 'package:mission_test_svr_infotech/views/widgets/country_code.dart';
@@ -21,7 +22,9 @@ final MyFormController phoneController = Get.put(MyFormController());
 CountryController countryController = Get.find<CountryController>();
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key});
+  const LoginPage({
+    super.key,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -29,32 +32,36 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isVerifying = false;
+  void clearText() {
+    phoneController.clearPhoneNumber();
+  }
+
   Future<void> verifyPhone() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     verificationCompleted(PhoneAuthCredential credential) async {
       await auth.signInWithCredential(credential);
-      log("TEST_LOG============verificationCompleted=========>");
+      log("verificationCompletd");
     }
 
     verificationFailed(FirebaseAuthException e) {
-      log("TEST_LOG========failure=============>${e.message}");
+      log("TESt failure${e.message}");
     }
 
     codeSent(String verificationId, int? resendToken) {
-      log("TEST_LOG===========Code shared==========>${verificationId}");
+      log("Code shared${verificationId}");
 
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (context) => OtpverificationView(
-      //             verificationId: verificationId,
-      //             phoneNumber: phoneController.phonenumber.toString(),
-      //           )),
-      // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => OtpverificationView(
+                  verificationId: verificationId,
+                  phoneNumber: phoneController.phonenumber.toString(),
+                )),
+      );
     }
 
     codeAutoRetrievalTimeout(String verificationId) {
-      log("TEST_LOG===========Time out==========>${verificationId}");
+      log("TEST_LOGTime out>${verificationId}");
     }
 
     await auth.verifyPhoneNumber(
@@ -137,54 +144,42 @@ class _LoginPageState extends State<LoginPage> {
                   Positioned(
                     top: ScreenUtil().setHeight(210),
                     right: ScreenUtil().setWidth(151),
-                    child: Container(
-                      width: ScreenUtil().setWidth(65),
-                      height: ScreenUtil().setHeight(65),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.backgroundColr,
-                      ),
-                      child: InkWell(
-                        onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OtpverificationView(
-                                      // verificationId: ,
-                                      phoneNumber: phoneController.phonenumber
-                                          .toString(),
-                                      countrycode: countryController
-                                          .selectedCountryCode
-                                          .toString(),
-                                    )),
+                    child: InkWell(
+                      onTap: () async {
+                        if (phoneController.phonenumber.value.length < 10) {
+                          Get.snackbar(
+                            'Please enter a valid phone number',
+                            colorText: Colors.white,
+                            '',
+                            backgroundColor: Colors.red,
+                            snackPosition: SnackPosition.TOP,
                           );
-                          if (phoneController.phonenumber.value.length < 10) {
-                            Get.snackbar(
-                              'Please enter a valid phone number',
-                              colorText: Colors.white,
-                              '',
-                              backgroundColor: Colors.red,
-                              snackPosition: SnackPosition.TOP,
-                            );
-                          } else {
-                            setState(() {
-                              isVerifying = true;
-                            });
-                            phoneController.submit();
-                            await verifyPhone();
+                        } else {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => OtpverificationView(
+                          //             // verificationId: verificationId,
+                          //             phoneNumber: phoneController.phonenumber
+                          //                 .toString(),
+                          //           )),
+                          // );
+                          phoneController.submit();
+                          await verifyPhone();
 
-                            log("added");
-                            Future.delayed(
-                              const Duration(seconds: 6),
-                              () {
-                                setState(() {
-                                  isVerifying = false;
-                                });
-                              },
-                            );
-                          }
-                        },
-                      ),
+                          log("added");
+                        }
+                      },
+                      child: Container(
+                          width: ScreenUtil().setWidth(65),
+                          height: ScreenUtil().setHeight(65),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.backgroundColr,
+                          ),
+                          child: ContainerView(
+                            isVerifying: isVerifying,
+                          )),
                     ),
                   ),
                   Positioned(

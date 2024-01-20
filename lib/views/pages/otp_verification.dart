@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:mission_test_svr_infotech/colors/colors.dart';
 import 'package:mission_test_svr_infotech/constants/constants.dart';
+import 'package:mission_test_svr_infotech/controllers/otp_controller.dart';
 import 'package:mission_test_svr_infotech/controllers/verification_controller.dart';
+
 import 'package:mission_test_svr_infotech/views/pages/registration_page.dart';
 import 'package:mission_test_svr_infotech/views/widgets/button.dart';
 import 'package:mission_test_svr_infotech/views/widgets/pinput_filed.dart';
@@ -19,7 +21,7 @@ class OtpverificationView extends StatefulWidget {
   final String? phoneNumber;
   final String? verificationId;
   final String? countrycode;
-  OtpverificationView(
+  const OtpverificationView(
       {super.key, this.phoneNumber, this.verificationId, this.countrycode});
 
   @override
@@ -68,8 +70,8 @@ class _OtpverificationViewState extends State<OtpverificationView> {
 //   bool isverifed = false;
   @override
   Widget build(BuildContext context) {
-    // String formattedPhoneNumber =
-    //     VerificationController().hidePhoneNumber(widget.phoneNumber!);
+    String formattedPhoneNumber =
+        VerificationController().hidePhoneNumber(widget.phoneNumber!);
     return Scaffold(
       backgroundColor: AppColors.backgroundColr,
       body: SingleChildScrollView(
@@ -80,19 +82,19 @@ class _OtpverificationViewState extends State<OtpverificationView> {
             child: Stack(
               children: [
                 Positioned(
-                  top: ScreenUtil().setHeight(250) * 0.580,
-                  left: MediaQuery.of(context).size.width * 0.359,
+                  top: ScreenUtil().setHeight(250) * 0.565,
+                  left: MediaQuery.of(context).size.width * 0.360,
                   child: Image.asset(
                     'assets/Graphicloads-100-Flat-Email-2-PhotoRoom.png',
-                    height: 90,
+                    height: ScreenUtil().setHeight(70),
                   ),
                 ),
                 Positioned(
-                    top: ScreenUtil().setHeight(250) * 0.553,
+                    top: ScreenUtil().setHeight(250) * 0.535,
                     left: MediaQuery.of(context).size.width * 0.439,
-                    child: const Icon(
+                    child: Icon(
                       Icons.check,
-                      size: 50,
+                      size: ScreenUtil().setHeight(41),
                       color: Colors.white,
                     )),
               ],
@@ -103,29 +105,33 @@ class _OtpverificationViewState extends State<OtpverificationView> {
             child: Column(
               children: [
                 const TextView(
-                  text: '  Enter OTP',
+                  text: ' Enter OTP',
                   colrs: AppColors.newColor,
                   size: 20,
                 ),
                 klbox,
-                const Text('We have sent an OTP on'),
+                Text(
+                  'We have sent an OTP on',
+                  style: newFont,
+                ),
                 Text("${widget.countrycode} ${widget.phoneNumber}  ",
-                    style: const TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 0.6))),
+                    style: newFont),
                 kabox,
                 const PinputField(),
                 kabox,
                 MyButton(
+                  textColor: Colors.white,
                   width: ScreenUtil().setWidth(280),
                   height: ScreenUtil().setHeight(40),
                   color: AppColors.textColor,
                   ontaps: () async {
-                    // verifyOTP(otpcontoller.text, widget.verificationId!);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const VerificationPage(),
-                        ));
+                    OtpController()
+                        .verifyOTP(otpcontoller.text, widget.verificationId!);
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const VerificationPage(),
+                    //     ));
                   },
                   text: 'Login',
                 ),
@@ -138,12 +144,15 @@ class _OtpverificationViewState extends State<OtpverificationView> {
                       text: "Don't receive OTP? ",
                       colrs: AppColors.newColor,
                     ),
-                    kkbox,
-                    MyButton(
-                      ontaps: () {
-                        // resendOtp();
+                    // kkbox,
+                    TextButton(
+                      onPressed: () async {
+                        await resendOtp();
                       },
-                      text: ' Resend',
+                      child: const Text(
+                        "Resend",
+                        style: TextStyle(color: AppColors.newColor),
+                      ),
                     )
                   ],
                 ),
