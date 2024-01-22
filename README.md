@@ -1,6 +1,6 @@
-# SVR InfoTech Mission Test App
+# SRV InfoTech Mission Test App
 
-This Flutter app is developed for the SVR InfoTech Mission Test. It utilizes various tools and features, including Firebase for backend services, OTP verification, Google Authentication, and fetching country codes.
+This Flutter app is developed for the SRV InfoTech Mission Test. It utilizes various tools and features, including Firebase for backend services, OTP verification, Google Authentication, and fetching country codes.
 
 ## Features
 
@@ -38,8 +38,5 @@ This Flutter app is developed for the SVR InfoTech Mission Test. It utilizes var
 
 To run the app locally, follow these steps:
 
-1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/svr-infotech-mission-test.git
 
