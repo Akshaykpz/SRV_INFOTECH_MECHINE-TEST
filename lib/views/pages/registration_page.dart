@@ -7,9 +7,14 @@ import 'package:mission_test_svr_infotech/views/widgets/button.dart';
 import 'package:mission_test_svr_infotech/views/widgets/text_view.dart';
 import 'package:mission_test_svr_infotech/views/widgets/textformfiled.dart';
 
-class VerificationPage extends StatelessWidget {
+class VerificationPage extends StatefulWidget {
   const VerificationPage({super.key});
 
+  @override
+  State<VerificationPage> createState() => _VerificationPageState();
+}
+
+class _VerificationPageState extends State<VerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

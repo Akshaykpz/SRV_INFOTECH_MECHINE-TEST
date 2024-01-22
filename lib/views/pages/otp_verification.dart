@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import 'package:mission_test_svr_infotech/colors/colors.dart';
 import 'package:mission_test_svr_infotech/constants/constants.dart';
@@ -26,6 +27,7 @@ class OtpverificationView extends StatefulWidget {
 
 class _OtpverificationViewState extends State<OtpverificationView> {
 //   bool isverifed = false;
+
   @override
   Widget build(BuildContext context) {
     String formattedPhoneNumber =

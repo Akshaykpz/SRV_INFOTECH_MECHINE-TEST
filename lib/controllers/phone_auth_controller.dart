@@ -35,7 +35,7 @@ class PhoneVerificationService {
         phoneNumber: phoneController.phonenumber.toString(),
       ),
       transition: Transition.fade,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 100),
     );
   }
 

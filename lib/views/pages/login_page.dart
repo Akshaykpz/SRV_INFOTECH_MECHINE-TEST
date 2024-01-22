@@ -130,16 +130,15 @@ class _LoginPageState extends State<LoginPage> {
                                   isVerifying = true;
                                 });
                                 await Future.delayed(
-                                    const Duration(seconds: 4));
-
-                                PhoneVerificationService().verifyPhone(
-                                    countryCode: countryController
-                                        .selectedCountryCode
-                                        .toString(),
-                                    phoneNumber:
-                                        phoneController.phonenumber.toString());
+                                  const Duration(seconds: 3),
+                                  () => PhoneVerificationService().verifyPhone(
+                                      countryCode: countryController
+                                          .selectedCountryCode
+                                          .toString(),
+                                      phoneNumber: phoneController.phonenumber
+                                          .toString()),
+                                );
                                 log("added");
-
                                 setState(() {
                                   isVerifying = false;
                                 });
