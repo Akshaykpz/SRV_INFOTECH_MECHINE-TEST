@@ -1,20 +1,16 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:mission_test_svr_infotech/colors/colors.dart';
 
-import 'package:mission_test_svr_infotech/controllers/google_auth.dart';
 import 'package:mission_test_svr_infotech/controllers/login_controllers.dart';
-import 'package:mission_test_svr_infotech/views/pages/otp_verification.dart';
+import 'package:mission_test_svr_infotech/controllers/phone_auth_controller.dart';
 
-import 'package:mission_test_svr_infotech/views/widgets/button.dart';
 import 'package:mission_test_svr_infotech/views/widgets/country_code.dart';
 import 'package:mission_test_svr_infotech/views/widgets/divider.dart';
+import 'package:mission_test_svr_infotech/views/widgets/google_auth.dart';
 import 'package:mission_test_svr_infotech/views/widgets/login_card.dart';
 
 final MyFormController phoneController = Get.put(MyFormController());
@@ -31,51 +27,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isVerifying = false;
-
-  Future<void> verifyPhone() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    verificationCompleted(PhoneAuthCredential credential) async {
-      await auth.signInWithCredential(credential);
-      log("verificationCompletd");
-    }
-
-    verificationFailed(FirebaseAuthException e) {
-      log("TESt failure${e.message}");
-    }
-
-    codeSent(String verificationId, int? resendToken) {
-      log("Code shared${verificationId}");
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => OtpverificationView(
-                  verificationId: verificationId,
-                  phoneNumber: phoneController.phonenumber.toString(),
-                )),
-      );
-    }
-
-    codeAutoRetrievalTimeout(String verificationId) {
-      log("TEST_LOGTime out>${verificationId}");
-    }
-
-    await auth.verifyPhoneNumber(
-      phoneNumber:
-          '${countryController.selectedCountryCode} ${phoneController.phonenumber}',
-      timeout: const Duration(seconds: 30),
-      verificationCompleted: verificationCompleted,
-      verificationFailed: verificationFailed,
-      codeSent: codeSent,
-      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-    );
-  }
-
-  @override
-  void dispose() {
-    phoneController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,10 +130,16 @@ class _LoginPageState extends State<LoginPage> {
                                   isVerifying = true;
                                 });
                                 await Future.delayed(
-                                    const Duration(seconds: 3));
+                                    const Duration(seconds: 4));
+
+                                PhoneVerificationService().verifyPhone(
+                                    countryCode: countryController
+                                        .selectedCountryCode
+                                        .toString(),
+                                    phoneNumber:
+                                        phoneController.phonenumber.toString());
                                 log("added");
-                                phoneController.submit();
-                                verifyPhone();
+
                                 setState(() {
                                   isVerifying = false;
                                 });
@@ -195,27 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                     right: 0,
                     child: const DividerView(),
                   ),
-                  Positioned(
-                    bottom: ScreenUtil().setHeight(40),
-                    right: ScreenUtil().setWidth(40),
-                    child: MyButton(
-                      ontaps: () async {
-                        UserCredential? userCredential =
-                            await GoogleAuth().signInWithGoogle();
-
-                        if (userCredential != null) {
-                          log('Signed in with Google: ${userCredential.user!.displayName}');
-                        }
-                      },
-                      width: ScreenUtil().setWidth(280),
-                      height: ScreenUtil().setHeight(20),
-                      text: 'Login with Google',
-                      color: Colors.white,
-                      textColor: Colors.grey.shade600,
-                      image:
-                          'assets/kisspng-google-logo-5b02bbe210fa26.4684376415269058260696.png',
-                    ),
-                  ),
+                  const GoogleAuths(),
                 ],
               ),
             ),
