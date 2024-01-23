@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import 'package:mission_test_svr_infotech/colors/colors.dart';
 import 'package:mission_test_svr_infotech/constants/constants.dart';
@@ -66,8 +67,12 @@ class _OtpverificationViewState extends State<OtpverificationView> {
                 height: ScreenUtil().setHeight(40),
                 color: AppColors.textColor,
                 ontaps: () async {
-                  OtpController()
-                      .verifyOTP(otpcontoller.text, widget.verificationId!);
+                  if (otpcontoller.text.length < 6) {
+                    Get.snackbar('enter valid otp', '');
+                  } else {
+                    OtpController()
+                        .verifyOTP(otpcontoller.text, widget.verificationId!);
+                  }
                 },
                 text: 'Login',
                 fontWeight: FontWeight.w500,

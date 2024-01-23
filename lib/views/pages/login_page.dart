@@ -26,6 +26,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void dispose() {
+    phoneController.dispose();
+    super.dispose();
+  }
+
   bool isVerifying = false;
 
   @override
