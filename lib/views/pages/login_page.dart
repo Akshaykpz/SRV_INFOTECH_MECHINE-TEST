@@ -57,24 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Center(
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              'assets/Graphicloads-100-Flat-Email-2-PhotoRoom.png',
-                              height: ScreenUtil().setHeight(40),
-                            ),
-                          ),
-                          Positioned(
-                            top: ScreenUtil().setHeight(250) * 0.230,
-                            left: MediaQuery.of(context).size.width * 0.444,
-                            child: Image.asset(
-                              'assets/PikPng.com_telegram-png_708973.png',
-                              height: ScreenUtil().setHeight(14),
-                            ),
-                          ),
-                        ],
+                      child: Image.asset(
+                        'assets/Screenshot_2024-01-23_101431-removebg-preview.png',
+                        height: ScreenUtil().setHeight(45),
                       ),
                     ),
                   ),
@@ -104,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                             shape: BoxShape.circle,
                             color: AppColors.backgroundColr,
                           ),
-                          child: InkWell(
+                          child: GestureDetector(
                             child: isVerifying
                                 ? const Center(
                                     child: CircularProgressIndicator(

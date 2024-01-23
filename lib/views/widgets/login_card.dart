@@ -24,7 +24,7 @@ class LoginCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black12.withOpacity(0.1),
-              spreadRadius: 10,
+              spreadRadius: 12,
               blurRadius: 12,
             ),
           ],
@@ -35,7 +35,7 @@ class LoginCard extends StatelessWidget {
             text: 'Login',
             colrs: AppColors.textColor,
             size: 20,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
           kkbox,
           Text('Enter your mobile to get', style: textDesion),

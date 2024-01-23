@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import 'package:mission_test_svr_infotech/colors/colors.dart';
 import 'package:mission_test_svr_infotech/constants/constants.dart';
@@ -26,8 +25,6 @@ class OtpverificationView extends StatefulWidget {
 }
 
 class _OtpverificationViewState extends State<OtpverificationView> {
-//   bool isverifed = false;
-
   @override
   Widget build(BuildContext context) {
     String formattedPhoneNumber =
@@ -35,99 +32,74 @@ class _OtpverificationViewState extends State<OtpverificationView> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColr,
       body: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            // color: Colors.black,
-            child: Stack(
-              children: [
-                Stack(children: [
-                  Positioned(
-                    top: ScreenUtil().setHeight(150),
-                    left: MediaQuery.of(context).size.width * 0.362,
-                    child: Image.asset(
-                      'assets/Graphicloads-100-Flat-Email-2-PhotoRoom.png',
-                      height: ScreenUtil().setHeight(80),
-                    ),
+          child: Column(children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          // color: Colors.black,
+          child: Flex(
+            direction: Axis.vertical,
+            children: [
+              krbox,
+              Image.asset(
+                'assets/kisspng-google-logo-5b02bbe210fa26.4684376415269058260696-removebg-preview.png',
+                height: ScreenUtil().setHeight(80),
+              ),
+              const TextView(
+                text: ' Enter OTP',
+                colrs: AppColors.newColor,
+                size: 20,
+                fontWeight: FontWeight.w500,
+              ),
+              klbox,
+              Text(
+                'We have sent an OTP on',
+                style: newFont,
+              ),
+              Text("${widget.countrycode} $formattedPhoneNumber  ",
+                  style: newFont),
+              kabox,
+              const PinputField(),
+              kabox,
+              MyButton(
+                textColor: Colors.white,
+                width: ScreenUtil().setWidth(280),
+                height: ScreenUtil().setHeight(40),
+                color: AppColors.textColor,
+                ontaps: () async {
+                  OtpController()
+                      .verifyOTP(otpcontoller.text, widget.verificationId!);
+                },
+                text: 'Login',
+                fontWeight: FontWeight.w500,
+                fontsize: 23,
+              ),
+              kzbox,
+              Flex(
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const TextView(
+                    text: "Don't receive OTP? ",
+                    colrs: AppColors.newColor,
                   ),
-                  Positioned(
-                      top: ScreenUtil().setHeight(141),
-                      left: MediaQuery.of(context).size.width * 0.450,
-                      child: Icon(
-                        Icons.check,
-                        size: ScreenUtil().setHeight(48),
-                        color: Colors.white,
-                      )),
-                ]),
-                Positioned(
-                  top: ScreenUtil().setHeight(230),
-                  child: Container(
-                    color: AppColors.backgroundColr,
-                    height: MediaQuery.of(context).size.height * 1.10,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        const TextView(
-                          text: ' Enter OTP',
-                          colrs: AppColors.newColor,
-                          size: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        klbox,
-                        Text(
-                          'We have sent an OTP on',
-                          style: newFont,
-                        ),
-                        Text("${widget.countrycode} $formattedPhoneNumber  ",
-                            style: newFont),
-                        kabox,
-                        const PinputField(),
-                        kabox,
-                        MyButton(
-                          textColor: Colors.white,
-                          width: ScreenUtil().setWidth(280),
-                          height: ScreenUtil().setHeight(40),
-                          color: AppColors.textColor,
-                          ontaps: () async {
-                            OtpController().verifyOTP(
-                                otpcontoller.text, widget.verificationId!);
-                          },
-                          text: 'Login',
-                          fontWeight: FontWeight.w500,
-                          fontsize: 23,
-                        ),
-                        kzbox,
-                        Flex(
-                          direction: Axis.horizontal,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const TextView(
-                              text: "Don't receive OTP? ",
-                              colrs: AppColors.newColor,
-                            ),
-                            // kkbox,
-                            TextButton(
-                              onPressed: () async {
-                                ResendVerification().resendOtp(
-                                    widget.countrycode.toString(),
-                                    widget.phoneNumber.toString());
-                              },
-                              child: const Text(
-                                "Resend",
-                                style: TextStyle(color: AppColors.newColor),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
+                  // kkbox,
+                  TextButton(
+                    onPressed: () async {
+                      ResendVerification().resendOtp(
+                          widget.countrycode.toString(),
+                          widget.phoneNumber.toString());
+                    },
+                    child: const Text(
+                      "Resend",
+                      style: TextStyle(color: AppColors.newColor),
                     ),
-                  ),
-                )
-              ],
-            ),
+                  )
+                ],
+              ),
+            ],
           ),
-        ]),
-      ),
+        ),
+      ])),
     );
   }
 }

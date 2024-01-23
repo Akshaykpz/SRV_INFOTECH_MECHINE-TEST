@@ -28,8 +28,8 @@ class ResendVerification {
     try {
       if (countryCode.isNotEmpty && phoneNumber.isNotEmpty) {
         await auth.verifyPhoneNumber(
-          phoneNumber: '${countryCode}'
-              '${phoneNumber}',
+          phoneNumber: '$countryCode'
+              '$phoneNumber',
           timeout: const Duration(seconds: 30),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,

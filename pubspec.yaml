@@ -40,12 +40,11 @@ dependencies:
   firebase_auth: ^4.16.0
   pinput: ^3.0.1
  
-  firebase_database: ^10.4.0
   cloud_firestore: ^4.14.0
   google_sign_in: ^6.2.1
   flutter_screenutil: ^5.9.0
   google_fonts: ^6.1.0
-  sms_autofill: ^2.3.0
+  
   page_transition: ^2.1.0
 
 dev_dependencies:
@@ -72,12 +71,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/user.png
-    - assets/211660_email_icon.png
-    - assets/Graphicloads-100-Flat-Email-2.256-removebg-preview.png
-    - assets/PikPng.com_telegram-png_708973.png
-    - assets/Graphicloads-100-Flat-Email-2-PhotoRoom.png
+    - assets/kisspng-google-logo-5b02bbe210fa26.4684376415269058260696-removebg-preview.png
     - assets/kisspng-google-logo-5b02bbe210fa26.4684376415269058260696.png
+    - assets/Screenshot_2024-01-23_101431-removebg-preview.png
+    - assets/user.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

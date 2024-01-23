@@ -31,7 +31,7 @@ SizedBox ktbox = SizedBox(
 );
 
 SizedBox krbox = SizedBox(
-  height: ScreenUtil().setHeight(320),
+  height: ScreenUtil().setHeight(80),
 );
 TextStyle newFont =
     GoogleFonts.aBeeZee(color: AppColors.hashColor, fontSize: 14);
