@@ -7,6 +7,9 @@ This Flutter app is developed for the SRV InfoTech Mission Test. It utilizes var
 - **Firebase Backend:**
   - Utilizes Firebase for backend services.
   - Implements OTP verification using Firebase authentication.
+ 
+ - **GETX State Managment:**
+  - - using getx state mangment
 
 - **Google Authentication:**
   - Allows users to log in using Google authentication.
